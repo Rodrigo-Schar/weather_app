@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Zpi-s1-LfG">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--History-->
+        <scene sceneID="rQU-gq-w6A">
+            <objects>
+                <viewController id="EOs-Wd-1Oc" customClass="HistoryViewController" customModule="weather_app" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jvA-3Y-Nqn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="G1c-Km-YYI">
+                                <rect key="frame" x="10" y="98" width="394" height="705"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HistoryCell" id="83C-3u-uAd" customClass="HistoryTableViewCell" customModule="weather_app" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="44.5" width="394" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="83C-3u-uAd" id="mXu-cS-yHB">
+                                            <rect key="frame" x="0.0" y="0.0" width="394" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="QbI-uz-T52"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="QbI-uz-T52" firstAttribute="bottom" secondItem="G1c-Km-YYI" secondAttribute="bottom" constant="10" id="HCx-jM-Gre"/>
+                            <constraint firstItem="G1c-Km-YYI" firstAttribute="top" secondItem="QbI-uz-T52" secondAttribute="top" constant="10" id="I9I-My-lxx"/>
+                            <constraint firstItem="G1c-Km-YYI" firstAttribute="leading" secondItem="QbI-uz-T52" secondAttribute="leading" constant="10" id="Jxv-QW-YXS"/>
+                            <constraint firstItem="QbI-uz-T52" firstAttribute="trailing" secondItem="G1c-Km-YYI" secondAttribute="trailing" constant="10" id="WHw-Gr-N0y"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="History" selectedImage="note.text" catalog="system" id="AyW-O9-EwH"/>
+                    <connections>
+                        <outlet property="historyTableView" destination="G1c-Km-YYI" id="IpN-Dg-WGS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eVd-Wo-IaT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1190" y="432"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="tNB-kR-EHc">
+            <objects>
+                <navigationController id="Zpi-s1-LfG" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="euE-FJ-ViU">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="XlN-eY-TBc" kind="relationship" relationship="rootViewController" id="c7C-2K-s02"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dgi-Xa-go7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3030" y="128"/>
+        </scene>
+        <!--Search-->
+        <scene sceneID="a3G-ms-aum">
+            <objects>
+                <viewController id="Wmi-OM-tEo" customClass="SearchViewController" customModule="weather_app" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="L8L-Xp-gbE">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CPd-3h-upp">
+                                <rect key="frame" x="0.0" y="88" width="414" height="51"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wdK-15-I7C">
+                                <rect key="frame" x="30" y="149" width="354" height="654"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="WeatherCell" id="hfJ-nS-peY" customClass="SearchTableViewCell" customModule="weather_app" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="44.5" width="354" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hfJ-nS-peY" id="Yok-fx-4eR">
+                                            <rect key="frame" x="0.0" y="0.0" width="354" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="DK2-ot-QmP"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wdK-15-I7C" firstAttribute="top" secondItem="CPd-3h-upp" secondAttribute="bottom" constant="10" id="Bjb-qP-Kah"/>
+                            <constraint firstItem="DK2-ot-QmP" firstAttribute="trailing" secondItem="wdK-15-I7C" secondAttribute="trailing" constant="30" id="GsO-Fg-Bdm"/>
+                            <constraint firstItem="DK2-ot-QmP" firstAttribute="bottom" secondItem="wdK-15-I7C" secondAttribute="bottom" constant="10" id="QuE-fh-Cax"/>
+                            <constraint firstItem="CPd-3h-upp" firstAttribute="trailing" secondItem="DK2-ot-QmP" secondAttribute="trailing" id="aZK-xY-TKs"/>
+                            <constraint firstItem="CPd-3h-upp" firstAttribute="top" secondItem="DK2-ot-QmP" secondAttribute="top" id="g7W-vt-lQr"/>
+                            <constraint firstItem="wdK-15-I7C" firstAttribute="leading" secondItem="DK2-ot-QmP" secondAttribute="leading" constant="30" id="xXc-QU-q8I"/>
+                            <constraint firstItem="CPd-3h-upp" firstAttribute="leading" secondItem="DK2-ot-QmP" secondAttribute="leading" id="zYc-4j-UXm"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Search" selectedImage="magnifyingglass" catalog="system" id="7qR-fn-Yz2"/>
+                    <connections>
+                        <outlet property="searchBar" destination="CPd-3h-upp" id="RNb-rw-uUz"/>
+                        <outlet property="searchTableView" destination="wdK-15-I7C" id="KH7-Vd-Jw1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2r0-pH-NfZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1191.304347826087" y="-175.44642857142856"/>
+        </scene>
+        <!--Weather App-->
+        <scene sceneID="WRf-Cm-pzQ">
+            <objects>
+                <tabBarController id="XlN-eY-TBc" customClass="View" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="Weather App" id="Pjo-AR-HyK"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ukF-hc-dXA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="Wmi-OM-tEo" kind="relationship" relationship="viewControllers" id="R3d-qh-neo"/>
+                        <segue destination="EOs-Wd-1Oc" kind="relationship" relationship="viewControllers" id="DiX-wS-s0u"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rcj-9r-gxG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2080" y="128"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="note.text" catalog="system" width="128" height="106"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
