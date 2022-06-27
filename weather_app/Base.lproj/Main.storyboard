@@ -40,7 +40,7 @@
                             <constraint firstItem="QbI-uz-T52" firstAttribute="trailing" secondItem="G1c-Km-YYI" secondAttribute="trailing" constant="10" id="WHw-Gr-N0y"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="History" selectedImage="note.text" catalog="system" id="AyW-O9-EwH"/>
+                    <tabBarItem key="tabBarItem" title="History" image="note.text" catalog="system" id="AyW-O9-EwH"/>
                     <connections>
                         <outlet property="historyTableView" destination="G1c-Km-YYI" id="IpN-Dg-WGS"/>
                     </connections>
@@ -104,7 +104,7 @@
                             <constraint firstItem="CPd-3h-upp" firstAttribute="leading" secondItem="DK2-ot-QmP" secondAttribute="leading" id="zYc-4j-UXm"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Search" selectedImage="magnifyingglass" catalog="system" id="7qR-fn-Yz2"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" id="7qR-fn-Yz2"/>
                     <connections>
                         <outlet property="searchBar" destination="CPd-3h-upp" id="RNb-rw-uUz"/>
                         <outlet property="searchTableView" destination="wdK-15-I7C" id="KH7-Vd-Jw1"/>

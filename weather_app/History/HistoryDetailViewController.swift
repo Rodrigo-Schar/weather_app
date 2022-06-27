@@ -16,12 +16,11 @@ class HistoryDetailViewController: UIViewController {
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var windLabel: UILabel!
+    @IBOutlet weak var tempMin: UILabel!
+    @IBOutlet weak var tempMax: UILabel!
+    @IBOutlet weak var humidity: UILabel!
     
-    //var country: Sys?
     var listDetail: list?
-    //var weatherDetail: Weather?
-    //var temperatureDetail: Main?
-    //var windDetail: Wind?
     
 
     override func viewDidLoad() {
@@ -47,11 +46,14 @@ class HistoryDetailViewController: UIViewController {
         }
         
         if let temperatureDetail = listDetail?.main {
-            temperatureLabel.text = "\(temperatureDetail.temp) K"
+            temperatureLabel.text = convertToCelsius(temp: temperatureDetail.temp)
+            tempMin.text = "Temperature Min: \(convertToCelsius(temp: temperatureDetail.temp_min))"
+            tempMax.text = "Temperature Max: \(convertToCelsius(temp: temperatureDetail.temp_max))"
+            humidity.text = "Humidity: \(temperatureDetail.humidity) %"
         }
         
         if let windDetail = listDetail?.wind {
-            windLabel.text = "Widn Speed: \(windDetail.speed) M/S"
+            windLabel.text = "Wind Speed: \(windDetail.speed) M/S"
         }
     }
     
@@ -59,5 +61,11 @@ class HistoryDetailViewController: UIViewController {
         let url = URL(string:UrlManager.instance.urlWeatherImage(text: withUrl))
         let image = ImageManager.instance.readUrl(urlStr: url!)
         return image
+    }
+    
+    func convertToCelsius(temp: Double) -> String {
+        let celsius = temp  - 273.15
+        let result  = "\(String(format: "%.2f", celsius)) C°"
+        return result
     }
 }

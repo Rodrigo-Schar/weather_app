@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import SVProgressHUD
 
 class SearchViewController: UIViewController {
 
@@ -26,15 +27,18 @@ class SearchViewController: UIViewController {
     
     func getWeatherData(withText: String){
         guard let url = URL(string:UrlManager.instance.urlWeather(text: withText)) else { return }
+        SVProgressHUD.show()
         
         NetworkManager.shared.get(WeatherModel.self, from: url) { result in
             switch result {
                 case .success(let data):
                     self.searchList = data.list
                     self.searchTableView.reloadData()
+                    SVProgressHUD.dismiss()
                 case .failure(let error):
                     print(error)
                     let alert = AlertManager.instance.showAlert(title: "Error", message: error.localizedDescription)
+                    SVProgressHUD.dismiss()
                 self.present(alert, animated: true, completion: nil)
             }
         }
@@ -47,8 +51,7 @@ class SearchViewController: UIViewController {
     }
     
     func saveHistory(withIndex: Int, withName: String) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let context = appDelegate.persistentContainer.viewContext
+        let context = CoreDataManager.shared.getContext()
         
         guard let entity = NSEntityDescription.entity(forEntityName: "WeatherHistory", in: context) else { return }
         guard let history = NSManagedObject(entity: entity, insertInto: context) as? WeatherHistory else { return }
@@ -64,6 +67,24 @@ class SearchViewController: UIViewController {
             
         } catch(let err) {
             print("Error", err)
+        }
+    }
+    
+    func checkHistory(withIndex: Int, withName: String){
+        let context = CoreDataManager.shared.getContext()
+        let fetchRequest = NSFetchRequest<WeatherHistory>(entityName: "WeatherHistory")
+        //fetchRequest.predicate = NSPredicate(format: "name == %@", name!)
+        fetchRequest.predicate = NSPredicate(format: "%K == %@ AND %K == %@", argumentArray:["name", withName, "positionList", withIndex])
+
+        do {
+            let results = try context.fetch(fetchRequest)
+            if (results.count == 0){
+                self.saveHistory(withIndex: withIndex, withName: withName)
+            } else {
+                print("There is an existing object")
+            }
+        }catch let error {
+            print("Error....: \(error)")
         }
     }
     
@@ -99,7 +120,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let list = searchList[indexPath.row]
         Detail.listDetail = list
         
-        saveHistory(withIndex: indexPath.row, withName: list.name)
+        checkHistory(withIndex: indexPath.row, withName: list.name)
         show(Detail, sender: nil)
     }
     

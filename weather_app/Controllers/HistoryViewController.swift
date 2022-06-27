@@ -8,6 +8,7 @@
 import UIKit
 import CoreData
 import Photos
+import SVProgressHUD
 
 class HistoryViewController: UIViewController {
     
@@ -32,9 +33,7 @@ class HistoryViewController: UIViewController {
     }
     
     func loadData() {
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let context = appDelegate.persistentContainer.viewContext
+        let context = CoreDataManager.shared.getContext()
         
         let fetchRequest: NSFetchRequest<WeatherHistory>
         fetchRequest = WeatherHistory.fetchRequest()
@@ -49,17 +48,19 @@ class HistoryViewController: UIViewController {
     }
     
     func getWeatherData(withText: String, withIndex: Int) {
-        
         guard let url = URL(string:UrlManager.instance.urlWeather(text: withText)) else { return }
+        SVProgressHUD.show()
         
         NetworkManager.shared.get(WeatherModel.self, from: url) { result in
             switch result {
                 case .success(let data):
                     self.historyList = data.list
                     self.gotoDetail(withhistory: self.historyList[withIndex])
+                    SVProgressHUD.dismiss()
                 case .failure(let error):
                     print(error)
                     let alert = AlertManager.instance.showAlert(title: "Error", message: error.localizedDescription)
+                    SVProgressHUD.dismiss()
                 self.present(alert, animated: true, completion: nil)
             }
         }
@@ -70,6 +71,19 @@ class HistoryViewController: UIViewController {
         
         Detail.listDetail = withhistory
         show(Detail, sender: nil)
+    }
+    
+    func deleteHistory(withObject: WeatherHistory, withIndex: IndexPath){
+        let context = CoreDataManager.shared.getContext()
+        context.delete(withObject)
+        try? context.save()
+        
+        if let index = history.firstIndex(where: { withObject.id == $0.id && withObject.name == $0.name && withObject.positionList == $0.positionList }) {
+            history.remove(at: index)
+
+            let indexPath = IndexPath(row: withIndex.row, section: 0)
+            historyTableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
     
 }
@@ -102,13 +116,34 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let history = history[indexPath.row]
-        //let Detail = HistoryDetailViewController()
         
         guard let name = history.name else { return }
         let index = Int(history.positionList)
         getWeatherData(withText: name, withIndex: index)
-        //Detail.listDetail = historyList[index]
-        //show(Detail, sender: nil)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let history = history[indexPath.row]
+        
+        let deleteAction = UIContextualAction(style: .normal, title:  "", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in success(true)
+            let dialogMessage = UIAlertController(title: "Delete", message: "Are you sure you want to delete this history?", preferredStyle: .alert)
+                let yes = UIAlertAction(title: "Yes", style: .default, handler: { (action) -> Void in
+                    
+                    //guard let name = history.name else { return }
+                    self.deleteHistory(withObject: history, withIndex: indexPath)
+                })
+                
+                let cancel = UIAlertAction(title: "No", style: .cancel) { (action) -> Void in
+                    print("Canceled")
+                }
+                
+                dialogMessage.addAction(yes)
+                dialogMessage.addAction(cancel)
+                self.present(dialogMessage, animated: true, completion: nil)
+            })
+        deleteAction.image = UIImage(systemName: "trash")
+        deleteAction.backgroundColor = UIColor.red
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
     
