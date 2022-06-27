@@ -68,6 +68,8 @@ struct Main: Decodable {
     let temp_max: Double
     let pressure: Int
     let humidity: Int
+    let sea_level: Int?
+    let grnd_level: Int?
     
     enum CodingKeys: String, CodingKey {
         case temp = "temp"
@@ -76,6 +78,8 @@ struct Main: Decodable {
         case temp_max = "temp_max"
         case pressure = "pressure"
         case humidity = "humidity"
+        case sea_level = "sea_level"
+        case grnd_level = "grnd_level"
     }
 }
 
@@ -98,8 +102,8 @@ struct Sys: Decodable {
 }
 
 struct Rain: Decodable {
-    let h1: Double
-    let h3: Double
+    let h1: Double?
+    let h3: Double?
     
     enum CodingKeys: String, CodingKey {
         case h1 = "1h"
@@ -108,8 +112,8 @@ struct Rain: Decodable {
 }
 
 struct Snow: Decodable {
-    let h1: Double
-    let h3: Double
+    let h1: Double?
+    let h3: Double?
     
     enum CodingKeys: String, CodingKey {
         case h1 = "1h"

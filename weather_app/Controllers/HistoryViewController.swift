@@ -127,13 +127,12 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
         
         let deleteAction = UIContextualAction(style: .normal, title:  "", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in success(true)
             let dialogMessage = UIAlertController(title: "Delete", message: "Are you sure you want to delete this history?", preferredStyle: .alert)
-                let yes = UIAlertAction(title: "Yes", style: .default, handler: { (action) -> Void in
+            let yes = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
                     
-                    //guard let name = history.name else { return }
                     self.deleteHistory(withObject: history, withIndex: indexPath)
                 })
                 
-                let cancel = UIAlertAction(title: "No", style: .cancel) { (action) -> Void in
+                let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
                     print("Canceled")
                 }
                 

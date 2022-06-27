@@ -25,6 +25,14 @@ class SearchViewController: UIViewController {
         searchTableView.register(uiNib, forCellReuseIdentifier: "WeatherCell")
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.searchBar.text = ""
+        self.searchList.removeAll()
+        self.searchTableView.reloadData()
+    }
+    
     func getWeatherData(withText: String){
         guard let url = URL(string:UrlManager.instance.urlWeather(text: withText)) else { return }
         SVProgressHUD.show()
@@ -33,11 +41,19 @@ class SearchViewController: UIViewController {
             switch result {
                 case .success(let data):
                     self.searchList = data.list
-                    self.searchTableView.reloadData()
-                    SVProgressHUD.dismiss()
+                    if(self.searchList.count == 0){
+                        SVProgressHUD.dismiss()
+                        self.searchList.removeAll()
+                        self.searchTableView.reloadData()
+                        let alert = AlertManager.instance.showAlert(title: "Error", message: "The text searched is not valid")
+                        self.present(alert, animated: true, completion: nil)
+                    } else {
+                        self.searchTableView.reloadData()
+                        SVProgressHUD.dismiss()
+                    }
                 case .failure(let error):
                     print(error)
-                    let alert = AlertManager.instance.showAlert(title: "Error", message: error.localizedDescription)
+                let alert = AlertManager.instance.showAlert(title: "Error", message: error.localizedDescription)
                     SVProgressHUD.dismiss()
                 self.present(alert, animated: true, completion: nil)
             }
@@ -73,7 +89,7 @@ class SearchViewController: UIViewController {
     func checkHistory(withIndex: Int, withName: String){
         let context = CoreDataManager.shared.getContext()
         let fetchRequest = NSFetchRequest<WeatherHistory>(entityName: "WeatherHistory")
-        //fetchRequest.predicate = NSPredicate(format: "name == %@", name!)
+        fetchRequest.fetchLimit = 1
         fetchRequest.predicate = NSPredicate(format: "%K == %@ AND %K == %@", argumentArray:["name", withName, "positionList", withIndex])
 
         do {
@@ -86,6 +102,12 @@ class SearchViewController: UIViewController {
         }catch let error {
             print("Error....: \(error)")
         }
+    }
+    
+    func convertToCelsius(temp: Double) -> String {
+        let celsius = temp  - 273.15
+        let result  = "\(String(format: "%.2f", celsius)) C°"
+        return result
     }
     
 }
@@ -109,7 +131,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.weatherImageView.image = getWeatherImage(withUrl: weather.icon)
         cell.placeLabel.text = list.name
         cell.weatherLabel.text = weather.description
-        cell.temperatureLabel.text = "\(temperature.temp) K"
+        cell.temperatureLabel.text = "\(self.convertToCelsius(temp: temperature.temp))"
         
         return cell
     }
